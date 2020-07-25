@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.QianchengUserTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.QianchengUserTable">
+        <result column="id" property="id" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="birthday" property="birthday" />
+        <result column="sex" property="sex" />
+        <result column="on_the_job" property="onTheJob" />
+        <result column="certificate_type" property="certificateType" />
+        <result column="certificate_num" property="certificateNum" />
+        <result column="highest_education" property="highestEducation" />
+        <result column="law_firm_identity" property="lawFirmIdentity" />
+        <result column="nation" property="nation" />
+        <result column="politic_countenance" property="politicCountenance" />
+        <result column="marital_status" property="maritalStatus" />
+        <result column="access_control_number" property="accessControlNumber" />
+        <result column="professional_department" property="professionalDepartment" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        user_name, password, birthday, sex, on_the_job, certificate_type, certificate_num, highest_education, law_firm_identity, nation, politic_countenance, marital_status, access_control_number, professional_department
+    </sql>
+
+    <select id="selectByUserNameAndPassword" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from qiancheng_user_table
+        where user_name = #{userName}
+        and password = #{password}
+    </select>
+</mapper>
