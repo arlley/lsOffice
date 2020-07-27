@@ -46,17 +46,16 @@ export default {
     }
   },
   computed: {
-    pageCount() {
-      let len = this.$store.state[this.$utils.getLocalArrayName(this.local)]
-        .length;
-      let size = Math.floor(len / this.total);
-      let mod = len % this.total;
-      if (mod > 0) {
-        size += 1;
-      } else if (mod == 0 && size == 0) {
-        size = 1;
-      }
-      return size;
+      pageCount() {
+        let len = this.$store.state[this.$utils.getLocalArrayName(this.local)].length;
+        let size = Math.floor(len / this.total);
+        let mod = len % this.total;
+        if (mod > 0) {
+          size += 1;
+        } else if (mod == 0 && size == 0) {
+          size = 1;
+        }
+        return size;
     },
     rangeList() {
       let values = [];

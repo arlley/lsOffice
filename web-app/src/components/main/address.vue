@@ -1,12 +1,12 @@
 <template>
   <div>
     <tableNav
-      localName="通讯录"
+      localName="人事管理"
       showFirstBtn="true"
       firstBtnName="刷新"
       :firstCallBack="flush"
       showSecondBtn="true"
-      secondBtnName="新增联系地址"
+      secondBtnName="新增人员"
       :secondCallBack="add"
     ></tableNav>
     <table class="table table-bordered table-striped table-hover">
@@ -14,13 +14,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">姓名</th>
-          <th scope="col">性别</th>
           <th scope="col">手机</th>
-          <th scope="col">Email</th>
-          <th scope="col">QQ号码</th>
-          <th scope="col">工作单位</th>
-          <th scope="col">地址</th>
-          <th scope="col">邮编</th>
+          <th scope="col">状态</th>
           <th scope="col">操作</th>
         </tr>
       </thead>
@@ -28,13 +23,9 @@
         <tr v-for="(address,index) in this.$store.state.pageArray" :key="index">
           <th scope="row">{{index+1}}</th>
           <td>{{address.name}}</td>
-          <td>{{address.sex}}</td>
-          <td>{{address.mobile}}</td>
-          <td>{{address.email}}</td>
-          <td>{{address.qq}}</td>
-          <td>{{address.company}}</td>
-          <td>{{address.address}}</td>
-          <td>{{address.postcode}}</td>
+          <td>{{address.tel}}</td>
+          <td v-if="address.state == 1">在职</td>
+          <td v-if="address.state == 0">离职</td>
           <td>
             <alterDeleteButton local="address" :selectIndex="index"></alterDeleteButton>
           </td>
@@ -59,8 +50,10 @@ export default {
     return {
     };
   },
+  amounted(){
+
+  },
   methods: {
-    
     flush() {
       this.$store.commit(this.$utils.getInitName(this));
       this.$router.push(this.$utils.getPageLink(this));

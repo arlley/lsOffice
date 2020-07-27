@@ -65,8 +65,9 @@ export default {
         if (data && data.code == 200) {
           this.$store.commit({
             type: "init",
-            userName: data.date.userName
+            name: data.date
           });
+          localStorage.setItem('name', data.date);
           this.$router.push("/main");
         }
       });

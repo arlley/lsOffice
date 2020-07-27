@@ -8,7 +8,7 @@
       </p>
     </div>
     <div id="personInfor">
-      <p id="userName">登录者：</p>
+      <p id="userName">登录者：{{name}}</p>
     </div>
 
     <div v-for="(item,index) in navList" :key="index">
@@ -37,11 +37,12 @@
 </template>
 
 <script>
+  var userName = localStorage.getItem("name");
 export default {
   name: "v-tab-menu",
   data() {
     return {
-      enrollee: this.$store.state.enrollee,
+      name: userName,
       navList: [
         {
           toLink: "/main",
@@ -56,17 +57,23 @@ export default {
           isActive: false
         },
         {
-          toLink: "/main/notice",
+          toLink: "/main/address",
           imageClass: "fa fa-volume-up text-light text-weight-bold",
-          text: "公告管理",
+          text: "人事管理",
           isActive: false
         },
         {
           toLink: "/main/meeting",
           imageClass: "fa fa-users text-light text-weight-bold",
-          text: "会议管理",
+          text: "事务所收支管理",
+          isActive: false
+        },{
+          toLink: "/main/meeting",
+          imageClass: "fa fa-users text-light text-weight-bold",
+          text: "个人收支管理",
           isActive: false
         },
+
         {
           toLink: "/main/address",
           imageClass: "fa fa-address-book text-light text-weight-bold",
@@ -94,6 +101,9 @@ export default {
       ]
     };
   },
+  amounted(){
+    userName = localStorage.getItem("userName");
+  },
   methods: {
     clear() {
       for (let item in this.navList) {
@@ -101,6 +111,9 @@ export default {
       }
     },
     clickNavItem(index) {
+      if(index == 1){
+        localStorage.removeItem("userName");
+      }
       this.clear();
       this.$set(this.navList[index], "isActive", true);
     }

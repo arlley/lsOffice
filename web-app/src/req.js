@@ -7,6 +7,7 @@ const concatURL = url => {
 };
 
 const POST = function (url, paramObject) {
+    debugger;
     if (paramObject == null) {
         return $axios.post(concatURL(url)).then(res => {
             return res.data;
@@ -15,6 +16,7 @@ const POST = function (url, paramObject) {
         });
     }
     return $axios.post(concatURL(url), paramObject).then(res => {
+
         return res.data;
     }).catch(function (e) {
         
@@ -28,7 +30,7 @@ const GET = function (url, paramObject) {
 
         });
     }
-    return $axios.get(concatURL(url), paramObject).then(res => {
+    return $axios.get(concatURL(url), {params: paramObject}).then(res => {
         return res.data;
     }).catch(function (e) {
 

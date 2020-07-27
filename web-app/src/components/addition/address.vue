@@ -1,16 +1,19 @@
 <template>
   <div class="w-100">
-    <tableNav localName="地址" showFirstBtn="true" firstBtnName="返回" :firstCallBack="putOff"></tableNav>
+    <tableNav localName="添加人员" showFirstBtn="true" firstBtnName="返回" :firstCallBack="putOff"></tableNav>
     <div class="mx-auto pt-4" style="width:800px">
       <form class="m-75 mx-auto">
         <div class="pt-sm-3" v-for="(value,key,index) in address" :key="index">
-          <div class="form-group row" v-if="key=='sex'">
+          <div class="form-group row" v-if="key=='state'">
             <label class="col-sm-2 col-form-label" for>{{inputGroup[index].title}}</label>
             <div class="col-sm-6">
-              <select class="form-control" id v-model="address.sex">
-                <option>男</option>
-                <option>女</option>
-              </select>
+<!--              <select class="form-control" id v-model="address.state">-->
+<!--                <option value="1">在职</option>-->
+<!--                <option value="0">离职</option>-->
+<!--              </select>-->
+              <selectCode v-model="address[key]" codeType="state">
+
+              </selectCode>
             </div>
             <div
               class="alert alert-danger col-sm-4 m-0 pt-0"
@@ -55,10 +58,11 @@
 import tableNav from "../table-nav";
 import req from "../../req";
 import url from "../../url";
+import selectCode from "../select-code"
 export default {
   name: "add-address",
   components: {
-    tableNav
+    tableNav, selectCode
   },
   data() {
     return {
@@ -71,82 +75,43 @@ export default {
           warnContent: ""
         },
         {
-          title: "性别",
-          type: "text",
-          warn: false,
-          warnContent: ""
-        },
-        {
           title: "电话",
           type: "text",
           warn: false,
           warnContent: ""
         },
         {
-          title: "Email",
-          type: "email",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "QQ",
+          title: "状态",
           type: "text",
           warn: false,
           warnContent: ""
         },
         {
-          title: "地址",
-          type: "text",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "邮编",
-          type: "text",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "公司",
-          type: "text",
+          title: "密码",
+          type: "password",
           warn: false,
           warnContent: ""
         }
       ],
       address: {
         name: "",
-        sex: "",
-        mobile: "",
-        email: "",
-        qq: "",
-        address: "",
-        postcode: "",
-        company: "",
-        username: this.$store.state.enrollee
+        tel: "",
+        state: "",
+        password:""
       }
     };
   },
   methods: {
     putIn() {
       if (this.isRight) {
-        req.POST(url.address.insert, req.myInsert(this.address)).then(data => {
-          if (data.result == "success") {
+        req.POST(url.address.insert, this.address).then(data => {
             this.$router.push({
               path: this.$utils.getSuccessLink(),
               query: {
-                message: "增加地址成功",
+                message: "增加人员成功",
                 local: this
               }
             });
-          } else {
-            this.$router.push({
-              path: this.$utils.getFailureLink(),
-              query: {
-                message: "增加地址失败",
-                local: this
-              }
-            });
-          }
         });
       }
     },

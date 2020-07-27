@@ -29,9 +29,9 @@ public class LoginCheckFilter extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         LoginVo loginVo = (LoginVo) request.getSession(true).getAttribute("loginVo");
-        if (Objects.isNull(loginVo)){
-            throw new LoginException("您还未登录 请先登录");
-        }
+//        if (Objects.isNull(loginVo)){
+//            throw new LoginException("您还未登录 请先登录");
+//        }
         return true;
     }
 }

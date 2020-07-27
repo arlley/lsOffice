@@ -18,6 +18,7 @@ Vue.prototype.$axios = axios;  //引入
 //设置axios为form-data
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.get['Content-Type'] = 'application/json';
+axios.defaults.withCredentials = true;
 
 
 //然后再修改原型链
@@ -53,8 +54,20 @@ Vue.directive('title', {
   }
 });
 
-new Vue({
+const isLogin = function () {
+  var userName = localStorage.getItem("name");
+  return userName != null && userName.length > 0;
+};
+
+var vue;
+router.beforeEach(function(to, from, next){
+  if (to.path !== '/login' && !isLogin()) next("/login")
+  else next()
+})
+vue = new Vue({
   render: h => h(App),
   router: router,
   store: store
-}).$mount('#app');
+});
+vue.$mount('#app');
+

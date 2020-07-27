@@ -29,8 +29,8 @@ export default {
         index: this.selectIndex
       });
       let id = this.$store.state[this.local].id;
-      req.POST(url[this.local].delete, req.myDelete({ id: id })).then(data => {
-        if (data.result == "success") {
+      debugger;
+      req.GET(url[this.local].delete, { id: id }).then(data => {
           this.$router.push({
             path: this.$utils.getSuccessLink(),
             query: {
@@ -38,15 +38,6 @@ export default {
               local: this.local
             }
           });
-        } else {
-          this.$router.push({
-            path: this.$utils.getFailureLink(),
-            query: {
-              message: "删除失败",
-              local: this.local
-            }
-          });
-        }
       });
     }
   }

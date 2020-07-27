@@ -12,6 +12,6 @@ public class CodeGen {
     public void contextLoads() {
         CodeGenerate gse = new CodeGenerate();
         //要给那些表生成
-        gse.generateByTables("", new String[]{"qiancheng_user_table"});
+        gse.generateByTables("", new String[]{"syscode"});
     }
 }

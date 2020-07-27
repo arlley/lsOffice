@@ -1,16 +1,16 @@
 <template>
   <div class="w-100">
-    <tableNav localName="修改地址" showFirstBtn="true" firstBtnName="返回" :firstCallBack="putOff"></tableNav>
+    <tableNav localName="修改人员信息" showFirstBtn="true" firstBtnName="返回" :firstCallBack="putOff"></tableNav>
     <div class="mx-auto pt-4" style="width:800px">
       <form class="m-75 mx-auto">
         <div class="pt-sm-3" v-for="(value,key,index) in address" :key="index">
           <div class="d-none" v-if="key=='id'"></div>
-          <div class="form-group row" v-else-if="key=='sex'">
+          <div class="form-group row" v-else-if="key=='state'">
             <label class="col-sm-2 col-form-label" for>{{inputGroup[index].title}}</label>
             <div class="col-sm-6">
-              <select class="form-control" v-model="address.sex">
-                <option value="男">男</option>
-                <option value="女">女</option>
+              <select class="form-control" v-model="address.state">
+                <option value="1">在职</option>
+                <option value="0">离职</option>
               </select>
             </div>
             <div
@@ -63,16 +63,16 @@ export default {
   },
   data() {
     return {
-      isRight: false,
+      isRight: true,
       inputGroup: [
         {
-          title: "姓名",
-          type: "text",
+          title: "id",
+          type: "hidden",
           warn: false,
           warnContent: ""
         },
         {
-          title: "性别",
+          title: "姓名",
           type: "text",
           warn: false,
           warnContent: ""
@@ -84,71 +84,40 @@ export default {
           warnContent: ""
         },
         {
-          title: "Email",
-          type: "email",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "QQ",
+          title: "状态",
           type: "text",
           warn: false,
           warnContent: ""
         },
         {
-          title: "地址",
-          type: "text",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "邮编",
-          type: "text",
-          warn: false,
-          warnContent: ""
-        },
-        {
-          title: "公司",
-          type: "text",
+          title: "密码",
+          type: "password",
           warn: false,
           warnContent: ""
         }
       ],
       address: {
+        id: this.$store.state.address.id,
         name: this.$store.state.address.name,
-        sex: this.$store.state.address.sex,
-        mobile: this.$store.state.address.mobile,
-        email: this.$store.state.address.email,
-        qq: this.$store.state.address.qq,
-        address: this.$store.state.address.address,
-        postcode: this.$store.state.address.postcode,
-        company: this.$store.state.address.company,
-        username: this.$store.state.enrollee,
-        id:this.$store.state.address.id
+        tel: this.$store.state.address.tel,
+        state: this.$store.state.address.state,
+        password:this.$store.state.address.password,
       }
     };
   },
   methods: {
     putIn() {
+      debugger;
       if (this.isRight) {
-        req.POST(url.address.update, req.myUpdate(this.address)).then(data => {
-          if (data.result == "success") {
+        debugger;
+        req.POST(url.address.update, this.address).then(data => {
             this.$router.push({
               path: this.$utils.getSuccessLink(),
               query: {
-                message: "修改地址成功",
+                message: "修改人员信息成功",
                 local: this
               }
             });
-          } else {
-            this.$router.push({
-              path: this.$utils.getFailureLink(),
-              query: {
-                message: "修改地址失败",
-                local: this
-              }
-            });
-          }
         });
       }
     },

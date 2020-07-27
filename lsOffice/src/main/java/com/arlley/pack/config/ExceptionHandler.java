@@ -37,6 +37,7 @@ public class ExceptionHandler {
         ApiResponse<Object> result = new ApiResponse<>();
         result.setCode(500);
         result.setMessage(e.getMessage());
+        e.printStackTrace();
         return result;
     }
 }
