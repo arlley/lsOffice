@@ -85,7 +85,144 @@
             新增委托人
             <a-icon type="right" />
           </span>
+          <div class="components-form-demo-advanced-search">
+            <a-form class="ant-advanced-search-form" :form="form1" :label-col="{span : 4}"
+                    :wrapper-col="{span: 20}">
+              <a-row :gutter="24">
+                <a-col style="margin-bottom: 30px; font-size:20px; font-family: 黑体; font-weight: bolder">
+                  基本信息
+                </a-col>
+              </a-row>
+              <a-row :gutter="24">
+                <a-col :span="12">
+                  <a-form-item label="客户">
+                    <a-input
+                      v-decorator="[
+                        `name`,
+                        {
+                          rules: [
+                            {
+                              required: true,
+                              message: '客户不能为空',
+                            },
+                          ],
+                        },
+                      ]"
+                      placeholder="placeholder"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item label="手机号码">
+                    <a-input
+                      v-decorator="[
+                        `tel`,
+                        {
+                          rules: [
+                            {
+                              required: true,
+                              message: 'Input something!',
+                            },
+                          ],
+                        },
+                      ]"
+                      placeholder="placeholder"
+                    />
+                  </a-form-item>
+                </a-col>
+                <a-col :span="12">
+                  <a-form-item label="客户类型">
+                    <a-input
+                      v-decorator="[
+                        `type`,
+                        {
+                          rules: [
+                            {
+                              required: true,
+                              message: 'Input something!',
+                            },
+                          ],
+                        },
+                      ]"
+                      placeholder="placeholder"
+                    />
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row :gutter="24">
+                <a-col :span="24">
+                  <a-form-item label="身份特点">
+                    <a-checkbox>
+                      妇女
+                    </a-checkbox>
+                    <a-checkbox>
+                      未成年人
+                    </a-checkbox>
+                    <a-checkbox>
+                      残疾人
+                    </a-checkbox>
+                    <a-checkbox>
+                      老年人
+                    </a-checkbox>
+                    <a-checkbox>
+                      农民
+                    </a-checkbox>
+                    <a-checkbox>
+                      农民工
+                    </a-checkbox>
+                    <a-checkbox>
+                      下岗职工
+                    </a-checkbox>
+                    <a-checkbox>
+                      城市居民
+                    </a-checkbox>
+                    <a-checkbox>
+                      外来人员
+                    </a-checkbox>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row :gutter="24">
+                <a-col style="margin-bottom: 30px; font-size:20px; font-family: 黑体; font-weight: bolder">
+                  其他选项
+                  <a :style="{ marginLeft: '8px', fontSize: '12px' }" @click="toggle">
+                    <span v-if="expand">收起</span><span v-else>展开</span> <a-icon :type="expand ? 'up' : 'down'" />
+                  </a>
+                </a-col>
+              </a-row>
+              <a-row :gutter="24" v-show="expand">
+                <a-col :span="8">
+                  <a-form-item label="证件类型" style="width: 100%">
+                    <a-select style="width: 100%"
+                      v-decorator="[
+                          `certType`,
+                          {
+                            rules: [
+                              {
+                                required: true,
+                                message: 'Input something!',
+                              },
+                            ],
+                          },
+                        ]"
+                    >
+                      <a-select-option value="0">
+                        测试
+                      </a-select-option>
+                    </a-select>
+                  </a-form-item>
+                </a-col>
+              </a-row>
+              <a-row>
+                <a-col :span="24" :style="{ textAlign: 'left' }">
+                  <a-button type="primary" html-type="submit">
+                    确定提交
+                  </a-button>
 
+                </a-col>
+              </a-row>
+            </a-form>
+          </div>
         </a-tab-pane>
         <a-tab-pane key="4" :disabled="tab4">
           <span slot="tab">
@@ -175,6 +312,7 @@
                 tab6:true,
                 expand: false,
                 form: this.$form.createForm(this, { name: 'advanced_search' }),
+                form1: this.$form.createForm(this, { name: 'advanced_search1' }),
                 data:[],
                 columns:[{
                     title:'案号',
@@ -281,12 +419,13 @@
 
   .ant-advanced-search-form .ant-form-item-control-wrapper {
     flex: 1;
+
   }
 
-  #components-form-demo-advanced-search .ant-form {
+  .components-form-demo-advanced-search .ant-form {
     max-width: none;
   }
-  #components-form-demo-advanced-search .search-result-list {
+  .components-form-demo-advanced-search .search-result-list {
     margin-top: 16px;
     border: 1px dashed #e9e9e9;
     border-radius: 6px;
@@ -294,5 +433,7 @@
     min-height: 200px;
     text-align: center;
     padding-top: 80px;
+  }
+  .ant-col{
   }
 </style>
