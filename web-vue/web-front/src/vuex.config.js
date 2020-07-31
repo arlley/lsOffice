@@ -5,7 +5,6 @@ export default {
   },
   mutations:{
       initName:function (state, params) {
-          debugger;
           state.name = params.name;
           state.token = params.token;
       }

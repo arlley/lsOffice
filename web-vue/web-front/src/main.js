@@ -6,13 +6,12 @@ import router from './router'
 
 import "bootstrap";
 import 'bootstrap/dist/js/bootstrap.min.js';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 import Vuex from 'vuex'
 Vue.use(Vuex)
-
 
 import validation from "./validation";
 Vue.prototype.$verify = validation;
@@ -50,7 +49,6 @@ window.addEventListener("beforeunload", () => {
 // 导航狗子
 
 router.beforeEach((to, from, next) =>{
-    debugger;
     if(to.name == 'Login'){
       next();
     }
