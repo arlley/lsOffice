@@ -31,7 +31,7 @@
         </router-link>
       </div>
       <div class="meun-title" v-if="index==1" style="padding-left:20px">公共信息</div>
-      <div class="meun-title" v-if="index==3" style="padding-left:20px">个人信息</div>
+      <div class="meun-title" v-if="index==4" style="padding-left:20px">个人信息</div>
     </div>
   </div>
 </template>
@@ -68,12 +68,11 @@ export default {
           text: "事务所收支管理",
           isActive: false
         },{
-          toLink: "/main/meeting",
+          toLink: "/main/notice",
           imageClass: "fa fa-users text-light text-weight-bold",
-          text: "个人收支管理",
+          text: "案件管理",
           isActive: false
         },
-
         {
           toLink: "/main/address",
           imageClass: "fa fa-address-book text-light text-weight-bold",

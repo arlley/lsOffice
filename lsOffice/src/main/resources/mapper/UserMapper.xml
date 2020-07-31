@@ -17,7 +17,7 @@
     </sql>
 
     <select id="selectByTelAndPassword" resultMap="BaseResultMap">
-        select name from user where tel = #{tel} and password = #{password}
+        select <include refid="Base_Column_List"/> from user where tel = #{tel} and password = #{password}
     </select>
 
     <select id="getAllUser" resultMap="BaseResultMap">

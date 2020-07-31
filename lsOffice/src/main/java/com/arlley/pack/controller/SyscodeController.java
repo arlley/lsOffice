@@ -18,7 +18,7 @@ public class SyscodeController {
     @Autowired
     private SyscodeService syscodeService;
 
-    @RequestMapping("/getCodeByCodeType")
+    @GetMapping("/getCodeByCodeType")
     public Syscode getSyscodeByTypeAndCode(@RequestParam("codeCode") String codeCode, @RequestParam("codeType") String codeType){
         return syscodeService.getSyscodeByTypeAndCode(codeType, codeCode);
     }

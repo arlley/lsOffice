@@ -16,9 +16,10 @@ import axios from "axios";
 Vue.prototype.$axios = axios;  //引入
 
 //设置axios为form-data
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.get['Content-Type'] = 'application/json';
+let baseURL = "http://localhost:26001/";
+axios.defaults.headers.post['Content-Type'] = 'text/plain';
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = baseURL;
 
 
 //然后再修改原型链
@@ -49,7 +50,8 @@ var  bus = new Vue();
 Vue.prototype.bus=bus;
 
 Vue.directive('title', {
-  inserted: function (el, binding) {
+  // eslint-disable-next-line no-unused-vars
+  inserted: function (el) {
     document.title = el.dataset.title
   }
 });
@@ -64,6 +66,21 @@ router.beforeEach(function(to, from, next){
   if (to.path !== '/login' && !isLogin()) next("/login")
   else next()
 })
+
+if (sessionStorage.getItem("store")) {
+  store.replaceState(
+      Object.assign(
+          {},
+          store.state,
+          JSON.parse(sessionStorage.getItem("store"))
+      )
+  );
+  sessionStorage.removeItem("store")
+}
+window.addEventListener("beforeunload", () => {
+  sessionStorage.setItem("store", JSON.stringify(store.state));
+});
+
 vue = new Vue({
   render: h => h(App),
   router: router,

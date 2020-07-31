@@ -11,7 +11,7 @@
 <!--                <option value="1">在职</option>-->
 <!--                <option value="0">离职</option>-->
 <!--              </select>-->
-              <selectCode v-model="address[key]" codeType="state">
+              <selectCode v-model="address.state" type="state" >
 
               </selectCode>
             </div>
@@ -93,6 +93,7 @@ export default {
           warnContent: ""
         }
       ],
+
       address: {
         name: "",
         tel: "",
@@ -117,7 +118,10 @@ export default {
     },
     putOff() {
       this.$router.push(this.$utils.getPageLink(this));
-    }
+    },
+      selectChange(state){
+        this.$data.address.state = state;
+      }
   }
 };
 </script>

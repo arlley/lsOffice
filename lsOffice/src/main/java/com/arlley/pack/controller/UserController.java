@@ -5,6 +5,8 @@ import com.arlley.pack.constant.ApiResponse;
 import com.arlley.pack.entity.User;
 import com.arlley.pack.exception.LoginException;
 import com.arlley.pack.service.UserService;
+import com.arlley.pack.utils.CommonUtils;
+import com.arlley.pack.vo.LoginTokenVo;
 import com.arlley.pack.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +31,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/doLogin")
-    public String doLogin(HttpSession httpSession, @RequestBody LoginVo loginVo) throws LoginException {
+    public LoginTokenVo doLogin(HttpSession httpSession, @RequestBody LoginVo loginVo) throws LoginException {
         User user = userService.isUser(loginVo);
 
         if(Objects.isNull(user)){
             throw new LoginException("用户名密码错误");
         }else{
-            httpSession.setAttribute("loginVo", loginVo);
-            return user.getName();
+            LoginTokenVo loginTokenVo = new LoginTokenVo();
+            loginTokenVo.setName(user.getName());
+            loginTokenVo.setToken(CommonUtils.getToken(user));
+            return loginTokenVo;
         }
     }
 
@@ -58,5 +62,10 @@ public class UserController {
     @GetMapping("/delete")
     public void delete(@RequestParam("id") int id){
         userService.delete(id);
+    }
+
+    @GetMapping("/getUser")
+    public User getUser(@RequestParam("id") int id){
+        return userService.getUserById(id);
     }
 }

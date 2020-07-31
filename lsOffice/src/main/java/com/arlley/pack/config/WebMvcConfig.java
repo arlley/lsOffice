@@ -4,6 +4,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.arlley.pack.filter.LoginCheckFilter;
+import com.arlley.pack.vo.LoginTokenVo;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,17 +28,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
     }
 
-    /*@Bean
-    public FilterRegistrationBean filterRegist() {
-        FilterRegistrationBean frBean = new FilterRegistrationBean();
-        frBean.setFilter(new LoginCheckFilter());
-        frBean.addUrlPatterns("/*");
-        return frBean;
-    }*/
+    @Bean
+    public LoginCheckFilter loginCheckFilter(){
+        return new LoginCheckFilter();
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginCheckFilter()).addPathPatterns("/**").excludePathPatterns("/user/doLogin");
+        registry.addInterceptor(loginCheckFilter()).addPathPatterns("/**").excludePathPatterns("/user/doLogin");
     }
 
     @Override

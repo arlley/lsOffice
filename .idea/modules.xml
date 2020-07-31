@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/lsOffice/lsOffice.iml" filepath="$PROJECT_DIR$/lsOffice/lsOffice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/web-app/web-app.iml" filepath="$PROJECT_DIR$/web-app/web-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web-vue/web-front/web-front.iml" filepath="$PROJECT_DIR$/web-vue/web-front/web-front.iml" />
     </modules>
   </component>
 </project>

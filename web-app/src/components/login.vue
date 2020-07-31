@@ -67,7 +67,7 @@ export default {
             type: "init",
             name: data.date
           });
-          localStorage.setItem('name', data.date);
+          localStorage.setItem('name', data.data);
           this.$router.push("/main");
         }
       });

@@ -19,6 +19,7 @@ public class ExceptionHandler {
         ApiResponse<Object> result = new ApiResponse<>();
         result.setCode(HttpStatus.EXPECTATION_FAILED.value());
         result.setMessage(e.getMessage());
+        e.printStackTrace();
         return result;
     }
 
@@ -28,6 +29,7 @@ public class ExceptionHandler {
         ApiResponse<Object> result = new ApiResponse<>();
         result.setCode(400);
         result.setMessage(e.getMessage());
+        e.printStackTrace();
         return result;
     }
 

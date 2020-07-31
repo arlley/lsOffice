@@ -107,9 +107,7 @@ export default {
   },
   methods: {
     putIn() {
-      debugger;
       if (this.isRight) {
-        debugger;
         req.POST(url.address.update, this.address).then(data => {
             this.$router.push({
               path: this.$utils.getSuccessLink(),

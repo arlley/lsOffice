@@ -29,7 +29,6 @@ export default {
         index: this.selectIndex
       });
       let id = this.$store.state[this.local].id;
-      debugger;
       req.GET(url[this.local].delete, { id: id }).then(data => {
           this.$router.push({
             path: this.$utils.getSuccessLink(),

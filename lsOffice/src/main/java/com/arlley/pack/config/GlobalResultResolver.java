@@ -30,7 +30,7 @@ public class GlobalResultResolver implements ResponseBodyAdvice<Object>{
             ApiResponse apiResponse = new ApiResponse();
             apiResponse.setCode(HttpStatus.OK.value());
             apiResponse.setMessage("request success");
-            apiResponse.setDate(o);
+            apiResponse.setData(o);
             return apiResponse;
         }
     }

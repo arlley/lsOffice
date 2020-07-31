@@ -21,6 +21,10 @@ public class UserService {
         return user;
     }
 
+    public User getUserById(int id){
+        return userMapper.selectById(id);
+    }
+
     public List<User> getAllUser(){
         return userMapper.getAllUser();
     }

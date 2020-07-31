@@ -24,7 +24,7 @@
 
     <select id="getSysCodeByType" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
-        from syscode where code_type = #{type}
+        from syscode where code_type = #{type} order by code_code asc
     </select>
 
 </mapper>

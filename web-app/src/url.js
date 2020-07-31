@@ -6,10 +6,10 @@ export default {
         update: 'user/update',
         delete: 'user/delete'
     }, meeting: {
-        list: 'meeting/list',
-        insert: 'meeting/insert',
-        update: 'meeting/update',
-        delete: 'meeting/delete'
+        list: 'pay/list',
+        insert: 'pay/insert',
+        update: 'pay/update',
+        delete: 'pay/delete'
     }, schedule: {
         list: 'schedule/list',
         insert: 'schedule/insert',
