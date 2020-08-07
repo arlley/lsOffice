@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.CaseLawyerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.CaseLawyer">
+        <id column="id" property="id" />
+        <result column="lawyer" property="lawyer" />
+        <result column="job" property="job" />
+        <result column="amount" property="amount" />
+        <result column="amountType" property="amountType" />
+        <result column="case_id" property="caseId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, lawyer, job, amount, amountType, case_id
+    </sql>
+
+</mapper>

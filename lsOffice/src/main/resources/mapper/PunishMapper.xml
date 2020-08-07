@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.PunishMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.Punish">
+        <id column="id" property="id" />
+        <result column="punish_time" property="time" />
+        <result column="content" property="content" />
+        <result column="punish_rank" property="rank" />
+        <result column="organ" property="organ" />
+        <result column="reason" property="reason" />
+        <result column="lid" property="lid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, punish_time, content, punish_rank, organ, reason, lid
+    </sql>
+
+</mapper>

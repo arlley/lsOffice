@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -29,12 +30,14 @@ public class CodeGenService {
         // 计算出需要补足的0的个数
         int digit = ((int)Math.log10(num)) + 1;
         StringBuilder sb = new StringBuilder();
-        sb.append(pNo);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        sb.append(sdf.format(new Date()));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        sb.append(calendar.get(Calendar.YEAR));
+        sb.append(",");
         int index = 0;
         while (index < numLength - digit){
             sb.append(0);
+            index ++;
         }
         sb.append(num);
         return sb.toString();

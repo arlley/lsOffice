@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.CaseMainTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.CaseMainTable">
+        <id column="id" property="id" />
+        <result column="caseNo" property="caseNo" />
+        <result column="reason" property="reason" />
+        <result column="nature" property="nature" />
+        <result column="foreigner" property="foreigner" />
+        <result column="contractNo" property="contractNo" />
+        <result column="custom_id" property="customId" />
+        <result column="party" property="party" />
+        <result column="party_status" property="partyStatus" />
+        <result column="party_my" property="partyMy" />
+        <result column="time" property="time" />
+        <result column="department" property="department" />
+        <result column="lawsuit" property="lawsuit" />
+        <result column="proxy_amount" property="proxyAmount" />
+        <result column="charge_mode" property="chargeMode" />
+        <result column="gov" property="gov" />
+        <result column="gov_amount" property="govAmount" />
+        <result column="law_suit_pro" property="lawSuitPro" />
+        <result column="law_suit_status" property="lawSuitStatus" />
+        <result column="exclu_case_no" property="excluCaseNo" />
+        <result column="sourcer" property="sourcer" />
+        <result column="third_party" property="thirdParty" />
+        <result column="incidental" property="incidental" />
+        <result column="assign" property="assign" />
+        <result column="pro" property="pro" />
+        <result column="city" property="city" />
+        <result column="county" property="county" />
+        <result column="file" property="file" />
+        <result column="note" property="note" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, caseNo, reason, nature, foreigner, contractNo, custom_id, party, party_status, party_my, time, department, lawsuit, proxy_amount, charge_mode, gov, gov_amount, law_suit_pro, law_suit_status, exclu_case_no, sourcer, third_party, incidental, assign, pro, city, county, file, note
+    </sql>
+
+    <select id="searchAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from case_main_table
+    </select>
+
+</mapper>

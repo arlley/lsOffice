@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.LawerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.Lawer">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="birthday" property="birthday" />
+        <result column="sex" property="sex" />
+        <result column="state" property="state" />
+        <result column="certType" property="certType" />
+        <result column="certNo" property="certNo" />
+        <result column="edu" property="edu" />
+        <result column="degree" property="degree" />
+        <result column="identity" property="identity" />
+        <result column="nation" property="nation" />
+        <result column="politic" property="politic" />
+        <result column="marial" property="marial" />
+        <result column="doorNo" property="doorNo" />
+        <result column="jobType" property="jobType" />
+        <result column="jobNo" property="jobNo" />
+        <result column="firstJobTime" property="firstJobTime" />
+        <result column="firstJobAddress" property="firstJobAddress" />
+        <result column="statusType" property="statusType" />
+        <result column="statusNo" property="statusNo" />
+        <result column="gainType" property="gainType" />
+        <result column="gainAddress" property="gainAddress" />
+        <result column="adept" property="adept" />
+        <result column="introduction" property="introduction" />
+        <result column="entryTime" property="entryTime" />
+        <result column="socialNo" property="socialNo" />
+        <result column="contractStartTime" property="contractStartTime" />
+        <result column="contractEndTime" property="contractEndTime" />
+        <result column="insurance" property="insurance" />
+        <result column="tel" property="tel" />
+        <result column="picture" property="picture" />
+        <result column="telAddress" property="telAddress" />
+        <result column="telNo" property="telNo" />
+        <result column="email" property="email" />
+        <result column="emailNo" property="emailNo" />
+        <result column="qq" property="qq" />
+        <result column="weChat" property="weChat" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, birthday, sex, state, certType, certNo, edu, degree, identity, nation, politic, marial, doorNo, jobType, jobNo, firstJobTime, firstJobAddress, statusType, statusNo, gainType, gainAddress, adept, introduction, entryTime, socialNo, contractStartTime, contractEndTime, insurance, tel, picture, telAddress, telNo, email, emailNo, qq, weChat
+    </sql>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from lawer
+        where 1 = 1
+        <if test="name != null">
+            and (name = #{name}
+            or tel = #{name}
+            )
+        </if>
+        <if test="identity != null">
+            and identity = #{identity}
+        </if>
+        <if test="startDate != null">
+            <![CDATA[
+            and entryTime >  #{startDate}
+            ]]>
+        </if>
+        <if test="endDate != null">
+            <![CDATA[
+            and entryTime < #{endDate}
+            ]]>
+        </if>
+    </select>
+
+</mapper>

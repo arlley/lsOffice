@@ -1,9 +1,12 @@
 <template>
   <div>
+    <div>
     <tableNav
       localName="收支管理"
     ></tableNav>
-    <a-table :columns="columns" :data-source="data" bordered>
+    </div>
+    <a-page title="收支信息"/>
+    <a-table :columns="columns" :data-source="data" bordered style="padding-top: 100px">
       <span slot="operation" slot-scope="text, record">
         {{}}
       </span>
@@ -50,7 +53,7 @@
             title: '操作',
             dataIndex: 'operation',
             scopedSlots: { customRender: 'operation' }
-        },
+        }
     ];
     const data = [];
     export default {

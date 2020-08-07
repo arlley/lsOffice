@@ -31,13 +31,31 @@
                 添加收支
               </a-menu-item>
             </a-sub-menu>
+            <a-sub-menu key="sub5" >
+              <span slot="title" ><a-icon type="usergroup-add" /><span>客户</span></span>
+              <a-menu-item key="Custom" @click="menuClick">
+                我的客户
+              </a-menu-item>
+              <a-menu-item key="AddPay" @click="menuClick">
+                对方当事人
+              </a-menu-item>
+            </a-sub-menu>
             <a-sub-menu key="sub4" >
               <span slot="title" ><a-icon type="container" /><span>案件信息</span></span>
-              <a-menu-item key="5" @click="menuClick">
+              <a-menu-item key="Case" @click="menuClick">
                 案件信息
               </a-menu-item>
               <a-menu-item key="AddCase" @click="menuClick">
                 添加案件
+              </a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="sub6" >
+              <span slot="title" ><a-icon type="container" /><span>人事</span></span>
+              <a-menu-item key="Lawyer" @click="menuClick">
+                员工信息
+              </a-menu-item>
+              <a-menu-item key="AddLawer" @click="menuClick">
+                添加员工
               </a-menu-item>
             </a-sub-menu>
           </a-menu>
@@ -54,7 +72,7 @@
     export default {
         data(){
             return {
-                rootSubmenuKeys: ['Welcome', 'sub2', 'sub3', 'sub4'],
+                rootSubmenuKeys: ['Welcome', 'sub2', 'sub3', 'sub4','sub5', 'sub6'],
                 openKeys: ['Welcome'],
             };
         },
@@ -96,7 +114,7 @@
   }
 
   .leftMeun {
-    position: absolute;
+    position: fixed;
     box-sizing: border-box;
     width: 200px;
     height: 100%;

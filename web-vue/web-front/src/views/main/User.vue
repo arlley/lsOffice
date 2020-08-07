@@ -3,7 +3,7 @@
     <tableNav
       localName="人事管理"
     ></tableNav>
-    <a-table :columns="columns" :data-source="data" bordered>
+    <a-table :columns="columns" :data-source="data" bordered style="padding-top: 100px">
       <span slot="state" slot-scope="text, record">
         <span v-if="record.state == 1">在职</span>
         <span v-if="record.state == 0">离职</span>

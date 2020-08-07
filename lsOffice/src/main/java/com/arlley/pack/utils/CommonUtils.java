@@ -1,6 +1,7 @@
 package com.arlley.pack.utils;
 
 import com.arlley.pack.entity.User;
+import com.arlley.pack.service.SyscodeService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
