@@ -371,7 +371,6 @@
             },
             submit(){
                 let scope = this;
-                debugger;
                 this.$refs['customRef'].validate(valid =>{
                     if(valid) {
                         req.POST("custom/insert", this.$data.custom, function (response) {

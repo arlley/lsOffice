@@ -2,6 +2,7 @@ package com.arlley.pack.controller;
 
 
 import com.arlley.pack.entity.Custom;
+import com.arlley.pack.exception.BusinessException;
 import com.arlley.pack.service.CustomService;
 import com.arlley.pack.vo.CustomVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,11 @@ public class CustomController {
     @GetMapping("/delete")
     public void delete(@RequestParam("id") int id){
         customService.delete(id);
+    }
+
+
+    @PostMapping("/check")
+    public void checkCustom(@RequestBody Custom custom) throws BusinessException {
+        customService.check(custom);
     }
 }

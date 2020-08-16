@@ -23,21 +23,18 @@
               </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub3" >
-              <span slot="title" ><a-icon type="dollar" /><span>收支信息</span></span>
-              <a-menu-item key="Pay" @click="menuClick">
-                收支信息
+              <span slot="title" ><a-icon type="dollar" /><span>财务管理</span></span>
+              <a-menu-item key="PayDetail" @click="menuClick">
+                事务所账户
               </a-menu-item>
-              <a-menu-item key="AddPay" @click="menuClick">
-                添加收支
+              <a-menu-item key="PayDetailMy" @click="menuClick">
+                个人账户
               </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub5" >
               <span slot="title" ><a-icon type="usergroup-add" /><span>客户</span></span>
               <a-menu-item key="Custom" @click="menuClick">
                 我的客户
-              </a-menu-item>
-              <a-menu-item key="AddPay" @click="menuClick">
-                对方当事人
               </a-menu-item>
             </a-sub-menu>
             <a-sub-menu key="sub4" >

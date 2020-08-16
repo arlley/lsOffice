@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arlley.pack.mapper.PayDetailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.arlley.pack.entity.PayDetail">
+        <id column="id" property="id" />
+        <result column="is_special" property="isSpecial" />
+        <result column="pay_type" property="payType" />
+        <result column="pay_type_detail" property="payTypeDetail" />
+        <result column="pay_time" property="payTime" />
+        <result column="pay_amount" property="payAmount" />
+        <result column="pay_way" property="payWay" />
+        <result column="create_time" property="createTime" />
+        <result column="note" property="note" />
+        <result column="case_id" property="caseId" />
+        <result column="incomeType" property="incomeType" />
+        <result column="lawyer_id" property="lawyerId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, is_special, pay_type, pay_type_detail, pay_time, pay_amount, pay_way, create_time, note, case_id, incomeType, lawyer_id
+    </sql>
+
+    <select id="search" resultMap="BaseResultMap" parameterType="map">
+        select <include refid="Base_Column_List"/>
+        from pay_detail
+        <where>
+            is_special = 1
+            <if test="payType != null">
+                and pay_type = #{payType}
+            </if>
+            <if test="payWay != null">
+                and pay_way = #{payWay}
+            </if>
+            <if test="startTime != null">
+                <![CDATA[
+                and pay_time > #{startTime}
+                ]]>
+            </if>
+            <if test="endTime != null">
+                <![CDATA[
+                and pay_time < #{endTime}
+                ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="searchAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from pay_detail
+        where
+        is_special = 1
+    </select>
+
+    <select id="searchPersonId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from pay_detail
+        where
+        is_special = 0 and lawyer_id = #{id}
+    </select>
+
+    <select id="searchPerson" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from pay_detail
+        <where>
+            is_special = 0 and lawyer_id = #{id}
+            <if test="payType != null">
+                and pay_type = #{payType}
+            </if>
+            <if test="payWay != null">
+                and pay_way = #{payWay}
+            </if>
+            <if test="startTime != null">
+                <![CDATA[
+                and pay_time > #{startTime}
+                ]]>
+            </if>
+            <if test="endTime != null">
+                <![CDATA[
+                and pay_time < #{endTime}
+                ]]>
+            </if>
+        </where>
+    </select>
+
+</mapper>

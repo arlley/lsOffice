@@ -1,6 +1,7 @@
 package com.arlley.pack.mapper;
 
 import com.arlley.pack.entity.CaseMainTable;
+import com.arlley.pack.vo.CaseSearchVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,6 @@ import java.util.List;
 public interface CaseMainTableMapper extends BaseMapper<CaseMainTable> {
 
 
-    List<CaseMainTable> searchAll();
+    List<CaseMainTable> searchAll(CaseSearchVo caseSearchVo);
+
 }

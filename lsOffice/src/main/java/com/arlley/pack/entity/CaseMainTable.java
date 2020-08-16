@@ -171,5 +171,12 @@ public class CaseMainTable implements Serializable {
      */
     private String note;
 
-
+    @TableField("caseState")
+    private String caseState;
+    @TableField("approveState")
+    private String approveState;
+    @TableField("approver")
+    private String approver;
+    @TableField("alreadyPay")
+    private BigDecimal alreadyPay;
 }

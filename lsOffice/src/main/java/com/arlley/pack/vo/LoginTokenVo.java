@@ -10,4 +10,6 @@ public class LoginTokenVo implements Serializable {
     private String token;
 
     private String name;
+
+    private int id;
 }

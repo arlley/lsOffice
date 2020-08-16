@@ -82,8 +82,10 @@
                 this.$refs['loginForm'].validate(valid =>{
                     if(valid){
                         req.POST("user/doLogin", this.loginReq, function (response) {
+                            debugger;
                             localStorage.setItem("token", response.data.data.token);
                             localStorage.setItem("name", response.data.data.name);
+                            localStorage.setItem("id", response.data.data.id);
                             scope.$store.commit({type:"initName", token: response.data.data.token, name: response.data.data.name});
                             scope.$router.push({name:'Welcome'}, null);
                         });

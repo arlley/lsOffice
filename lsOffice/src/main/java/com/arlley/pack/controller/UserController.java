@@ -39,6 +39,7 @@ public class UserController {
         }else{
             LoginTokenVo loginTokenVo = new LoginTokenVo();
             loginTokenVo.setName(user.getName());
+            loginTokenVo.setId(user.getId());
             loginTokenVo.setToken(CommonUtils.getToken(user));
             return loginTokenVo;
         }

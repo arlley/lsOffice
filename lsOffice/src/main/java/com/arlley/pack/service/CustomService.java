@@ -2,6 +2,7 @@ package com.arlley.pack.service;
 
 import com.arlley.pack.entity.Custom;
 import com.arlley.pack.entity.DbYhmCity;
+import com.arlley.pack.exception.BusinessException;
 import com.arlley.pack.mapper.CustomMapper;
 import com.arlley.pack.mapper.DbYhmCityMapper;
 import com.arlley.pack.vo.CustomVo;
@@ -81,5 +82,12 @@ public class CustomService {
         DbYhmCity pro = dbYhmCityMapper.selectByClassId(proType);
         DbYhmCity city = dbYhmCityMapper.selectByClassId(cityType);
         return pro.getClassName() + "省" + city.getClassName() + "市";
+    }
+
+    public void check(Custom custom) throws BusinessException {
+        List<Custom> customList = customMapper.selectByNameAndCert(custom.getName(), custom.getCertType(), custom.getCertNo());
+        if(customList != null && customList.size() > 0){
+            throw new BusinessException("客户已存在");
+        }
     }
 }

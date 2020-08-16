@@ -17,4 +17,8 @@
         id, lawyer, job, amount, amountType, case_id
     </sql>
 
+
+    <select id="selectByCaseId" resultType="string">
+        select l.name from case_lawyer cl left join lawer l on l.id = cl.lawyer where cl.case_id = #{caseId}
+    </select>
 </mapper>

@@ -152,7 +152,7 @@
             deleteRecord(id){
                 let scope = this;
                 req.GET("custom/delete", {id:id}, function (res) {
-                    req.POST("custom/search", data, function (response) {
+                    req.POST("custom/search", scope.$data.searchData, function (response) {
                         scope.$data.dataSource = response.data.data;
                     });
                 });

@@ -18,6 +18,13 @@ import AlertCustom from "../views/main/AlertCustom";
 import Case from "../views/main/Case";
 import AddLawer from "../views/main/AddLawer";
 import Lawyer from "../views/main/Lawyer";
+import PayDetailAll from "../views/main/PayDetailAll";
+import AddLawyerPay from "../views/main/AddLawyerPay";
+import AddLawyerOut from "../views/main/AddLawyerOut";
+import CaseDetail from "../views/main/CaseDetail";
+import PayDetailMy from "../views/main/PayDetailMy";
+import AddLawyerMyPayIn from "../views/main/AddLawyerMyPayIn";
+import AddLawyerMyPayOut from "../views/main/AddLawyerMyPayOut";
 
 Vue.use(Router);
 
@@ -89,6 +96,34 @@ export default new Router({
               path:'/lawyer',
               name:'Lawyer',
               component: Lawyer
+            },{
+              path:'/payDetail',
+              name:'PayDetail',
+              component: PayDetailAll
+            },{
+              path:'/addLawyerPay',
+              name:'AddLawyerPay',
+              component: AddLawyerPay
+            },{
+              path:'/addLawyerOut',
+              name:'AddLawyerOut',
+              component: AddLawyerOut
+            },{
+              path:'/caseDetail',
+              name:'CaseDetail',
+              component: CaseDetail
+            },{
+              path:'/payDetailMy',
+              name:'PayDetailMy',
+              component: PayDetailMy
+            },{
+              path:'/addLawyerMyPayIn',
+              name:'AddLawyerMyPayIn',
+              component: AddLawyerMyPayIn
+            },{
+              path:'/addLawyerMyPayOut',
+              name:'AddLawyerMyPayOut',
+              component: AddLawyerMyPayOut
             }]
         },{
           path: '/*',
@@ -97,3 +132,7 @@ export default new Router({
         },
     ]
 })
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}

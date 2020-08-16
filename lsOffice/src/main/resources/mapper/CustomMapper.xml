@@ -63,4 +63,8 @@
         </if>
     </select>
 
+    <select id="selectByNameAndCert" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from custom where name = #{name} and certType = #{certType} and certNo = #{certNo}
+    </select>
 </mapper>

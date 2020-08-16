@@ -33,16 +33,65 @@
         <result column="county" property="county" />
         <result column="file" property="file" />
         <result column="note" property="note" />
+        <result column="caseState" property="caseState" />
+        <result column="approveState" property="approveState" />
+        <result column="approver" property="approver" />
+        <result column="alreadyPay" property="alreadyPay"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, caseNo, reason, nature, foreigner, contractNo, custom_id, party, party_status, party_my, time, department, lawsuit, proxy_amount, charge_mode, gov, gov_amount, law_suit_pro, law_suit_status, exclu_case_no, sourcer, third_party, incidental, assign, pro, city, county, file, note
+        id, caseNo, reason, nature, foreigner, contractNo, custom_id, party, party_status, party_my, time, department, lawsuit, proxy_amount, charge_mode, gov, gov_amount, law_suit_pro, law_suit_status, exclu_case_no, sourcer, third_party, incidental, assign, pro, city, county, file, note, caseState,alreadyPay
     </sql>
 
-    <select id="searchAll" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
-        from case_main_table
+
+    <sql id="search">
+        cmt.id as id,
+        cmt.caseNo as  caseNo,
+        cmt.reason as  reason,
+        cmt.nature as  nature,
+        cmt.foreigner as  foreigner,
+        cmt.contractNo as  contractNo,
+        cmt.custom_id as  custom_id,
+        cmt.party as  party,
+        cmt.party_status as  party_status,
+        cmt.party_my as  party_my,
+        cmt.time as  time,
+        cmt.department as  department,
+        cmt.lawsuit as  lawsuit,
+        cmt.proxy_amount as  proxy_amount,
+        cmt.charge_mode as  charge_mode,
+        cmt.gov as  gov,
+        cmt.gov_amount as  gov_amount,
+        cmt.law_suit_pro as  law_suit_pro,
+        cmt.law_suit_status as  law_suit_status,
+        cmt.exclu_case_no as  exclu_case_no,
+        cmt.sourcer as  sourcer,
+        cmt.third_party as  third_party,
+        cmt.incidental as  incidental,
+        cmt.assign as  assign,
+        cmt.pro as  pro,
+        cmt.city as  city,
+        cmt.county as  county,
+        cmt.file as  file,
+        cmt.note as  note,
+        cmt.caseState as  caseState,
+        cmt.approveState as approveState,
+        cmt.approver as approver,
+        cmt.alreadyPay as alreadyPay
+</sql>
+
+    <select id="searchAll" resultMap="BaseResultMap" parameterType="map">
+        select <include refid="search"/>
+        from case_main_table cmt left join custom ct on ct.id = cmt.custom_id
+        <where>
+            <if test="customName != null">
+                and (ct.name = #{customName} or cmt.party_my = #{customName})
+            </if>
+            <if test="party != null">
+                and cmt.party = #{party}
+            </if>
+        </where>
     </select>
 
 </mapper>

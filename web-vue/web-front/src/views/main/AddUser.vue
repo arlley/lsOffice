@@ -1,7 +1,7 @@
 <template>
   <div class="w-100">
     <tableNav localName="添加人员" showFirstBtn="true" firstBtnName="返回" :firstCallBack="putOff"></tableNav>
-    <div class="mx-auto pt-4" style="width:800px">
+    <div class="mx-auto" style="width:800px; padding-top: 70px!important;">
       <a-form-model ref="ruleForm" :model="address" :rules="rules" v-bind="layout">
         <div class="pt-sm-3">
           <div class="row">

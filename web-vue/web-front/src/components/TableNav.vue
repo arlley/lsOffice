@@ -1,5 +1,5 @@
 <template>
-  <div style="max-height:70px;background:#4D5E70; position:fixed; width:100%;z-index:100">
+  <div style="max-height:70px;background:#4D5E70; position:fixed; width:100%;z-index:100; top: 0px">
     <div class="d-flex justify-content-between h-100" style="line-height:70px;">
       <span class="pl-3 font-weight-bold" style="font-size:20px;">
         <span class="text-white">当前位置&nbsp;&gt;&gt;</span>
@@ -27,6 +27,9 @@
             showSecondBtn:false,
             secondBtnName: "",
             secondCallBack:Function
+        },
+        mounted(){
+            debugger;
         },
         methods: {
             firstClick() {

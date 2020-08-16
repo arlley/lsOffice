@@ -1,10 +1,11 @@
-import Vue from 'vue';
 import axios from 'axios';
 import {notification} from 'ant-design-vue';
 
 const getLocal = function () {
     return localStorage.getItem("token");
 }
+
+axios.defaults.withCredentials = true;
 
 const POST = function (url, paramObject, callback) {
     if(paramObject == null){
@@ -57,6 +58,7 @@ axios.interceptors.response.use(function (response) {
 });
 axios.interceptors.request.use(function (config) {
   config.headers.Authorization = getLocal();
+  // config.headers.Access-Control-Allow-Origin = "http://localhost:8080";
   return config;
 });
 

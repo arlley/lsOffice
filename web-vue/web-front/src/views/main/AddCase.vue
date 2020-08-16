@@ -24,47 +24,25 @@
             <a-icon type="right" />
           </span>
           <div id="components-form-demo-advanced-search">
-            <a-form class="ant-advanced-search-form" :form="form" @submit="handleSearch">
+            <a-form class="ant-advanced-search-form" >
               <a-row :gutter="24">
                 <a-col :span="12">
                   <a-form-item label="委托人/当事人">
-                    <a-input
-                      v-decorator="[
-                      `field-${0}`,
-                      {
-                        rules: [
-                          {
-                            required: true,
-                            message: '请输入当事人',
-                          },
-                        ],
-                      },
-                    ]" placeholder="委托人/当事人"
+                    <a-input v-model="searchData.customName" placeholder="委托人/当事人"
                     />
                   </a-form-item>
                 </a-col>
 
                 <a-col :span="12">
                   <a-form-item label="对方当事人">
-                    <a-input
-                      v-decorator="[
-                      `field-${1}`,
-                      {
-                        rules: [
-                          {
-                            required: true,
-                            message: '请输入对方当事人',
-                          },
-                        ],
-                      },
-                    ]" placeholder="对方当事人"
+                    <a-input v-model="searchData.party" placeholder="对方当事人"
                     />
                   </a-form-item>
                 </a-col>
               </a-row>
               <a-row>
                 <a-col :span="24" :style="{ textAlign: 'right' }">
-                  <a-button type="primary" html-type="submit">
+                  <a-button type="primary" @click="handleSearch">
                     Search
                   </a-button>
                   <a-button :style="{ marginLeft: '8px' }" @click="handleReset">
@@ -371,8 +349,23 @@
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="12">
-                  <a-form-model-item label="委托人" prop="customName">
-                    <a-input  v-model="caseTable.customName"/>
+                  <a-form-model-item label="委托人">
+                    <a-auto-complete
+                      class="certain-category-search"
+                      dropdown-class-name="certain-category-search-dropdown"
+                      :dropdown-match-select-width="false"
+                      :dropdown-style="{ width: '300px' }"
+                      size="large"
+                      placeholder="委托人"
+                      :filterOption="filterOption"
+                      optionLabelProp="value"
+                    >
+                      <template slot="dataSource">
+                        <a-select-option @click="changeCust(opt, caseTable)" v-for="opt in custDataSource" :key="opt.value" :id="opt.value" :value="opt.title" :title="opt.title">
+                          {{ opt.title }}
+                        </a-select-option>
+                      </template>
+                    </a-auto-complete>
                   </a-form-model-item>
                 </a-col>
                 <a-col :span="12">
@@ -528,23 +521,52 @@
                 </a-col>
               </a-row>
               <a-row :gutter="24"
-                     v-for="caseLawyer in caseTable.caseLawyerVos">
-                <a-col :span="6">
+                     v-for="(caseLawyer , index) in caseTable.caseLawyerVos" :key="index">
+                <a-col :span="5">
                   <a-form-item>
                     <a-select v-model="caseLawyer.job">
                       <a-select-option v-for="lawyer in lawyerCode" :value="lawyer.codeCode">{{lawyer.codeName}}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </a-col>
-                <a-col :span="6">
+                <a-col :span="5">
                   <a-form-item>
                     <a-auto-complete
-                      :data-source="dataSource"
-                      placeholder="律师姓名"
-                      :filter-option="filterOption"
-                    />
+                      class="certain-category-search"
+                      dropdown-class-name="certain-category-search-dropdown"
+                      :dropdown-match-select-width="false"
+                      :dropdown-style="{ width: '300px' }"
+                      size="large"
+                      style="width: 100%"
+                      placeholder="律师"
+                      :filterOption="filterOption"
+                      optionLabelProp="value"
+                    >
+                    <template slot="dataSource">
+                        <a-select-option @click="changeLawyer(opt, caseLawyer)" v-for="opt in dataSource" :key="opt.value" :id="opt.value" :value="opt.title" :title="opt.title">
+                          {{ opt.title }}
+                        </a-select-option>
+                    </template>
+                    </a-auto-complete>
                   </a-form-item>
                 </a-col>
+                <a-col :span="5">
+                  <a-form-item label="业绩分成" :label-col="{span:12}" :wrapper-col="{span:12}">
+                    <a-input v-model="caseLawyer.amount"></a-input>
+                  </a-form-item>
+                </a-col>
+              <a-col :span="5">
+                <a-form-item>
+                  <a-select v-model="caseLawyer.amountType" default-value="">
+                    <a-select-option value="">请选择分成方式</a-select-option>
+                    <a-select-option v-for="amountType in amountTypeCode" :value="amountType.codeCode">{{amountType.codeName}}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :span="4">
+                <a-button v-if="index == 0" type="primary" @click="addCaseLawyer">增加一行</a-button>
+                <a-button v-if="index != 0" type="danger" @click="removeCaseLawyer(index)">删除</a-button>
+              </a-col>
               </a-row>
               <a-row>
                 <a-col :span="24" :style="{ textAlign: 'left' }">
@@ -581,6 +603,8 @@
 <script>
     import tableNav from "../../components/TableNav";
     import req from "../../req";
+    const dataSource = [];
+    const custDataSource=[];
     export default {
         name: "add-address",
         components: {
@@ -617,6 +641,22 @@
             req.GET("code/getCodesByType", {codeType: 'nature'}, function (response) {
                 scope.$data.natureCode = response.data.data;
             });
+
+            req.POST("lawyer/query", {}, function (response) {
+                let data = response.data.data;
+                data.forEach(function (value) {
+                    dataSource.push({title : value.name, value: String(value.id)});
+                })
+            });
+
+            req.POST("custom/search", {}, function (response) {
+                let data = response.data.data;
+                custDataSource.length=0;
+                data.forEach(function (value) {
+                    custDataSource.push({title : value.name, value: String(value.id)});
+                })
+            });
+
             req.GET("code/getCodesByType", {codeType: 'edu'}, function (response) {
                 scope.$data.eduCode = response.data.data;
             });
@@ -626,6 +666,10 @@
 
             req.GET("code/getCodesByType", {codeType: 'customType'}, function (response) {
                 scope.$data.customTypeCode = response.data.data;
+            });
+
+            req.GET("code/getCodesByType", {codeType: 'amountType'}, function (response) {
+                scope.$data.amountTypeCode = response.data.data;
             });
 
             req.GET("code/getCodesByType", {codeType: 'lawyer'}, function (response) {
@@ -669,7 +713,6 @@
                 let data = response.data.data;
                 scope.$data.caseTable = data;
             });
-
             req.GET("code/getCodesByType", {codeType: 'caseType'}, function (response) {
                 scope.$data.caseTypes = response.data.data;
                 scope.$data.caseTypes.forEach(function (value) {
@@ -691,6 +734,19 @@
                 });
 
             });
+
+            req.GET("code/getCodesByType", {codeType: 'income'}, function (response) {
+                let result = response.data.data;
+                result.forEach(function (value, index) {
+                    scope.syscodesCheck[value.codeCode] = value.codeName;
+                })
+                req.GET("code/getCodesByType", {codeType: 'payType'}, function (response) {
+                    let result = response.data.data;
+                    result.forEach(function (value, index) {
+                        scope.PaySyscodesCheck[value.codeCode] = value.codeName;
+                    })
+                });
+            });
         },
         data() {
             return {
@@ -706,58 +762,78 @@
                 caseChildType:[],
                 caseChildTypes:[],
                 tempTypes:{},
+                searchData:{},
                 case:{
                     type:''
                 },
-                lawers:[{
-                    id:'',
-                    type:'',
-                    name:'',
-                    amount:'',
-                    amountType:''
-                }],
-                tab2:false,
-                tab3:false,
-                tab4:false,
-                tab5:false,
-                tab6:false,
+                dataSource,
+                custDataSource,
+                tab2:true,
+                tab3:true,
+                tab4:true,
+                tab5:true,
+                tab6:true,
                 expand: false,
                 form: this.$form.createForm(this, { name: 'advanced_search' }),
                 form1: this.$form.createForm(this, { name: 'advanced_search1' }),
                 data:[],
                 columns:[{
-                    title:'案号',
-                    dataIndex:'caseNo',
-                    width:'10%'
-                },{
-                    title:'委托人',
-                    dataIndex:'bailor',
-                    width:'10%'
-                },{
-                    title:'当事人/嫌疑人',
-                    dataIndex:'party',
-                    width:'10%'
-                },{
-                    title:'对方当事人',
-                    dataIndex:'party1',
-                    width:'10%'
-                },{
-                    title:'承办律师',
-                    dataIndex:'userName',
-                    width:'10%'
-                },{
-                    title:'案由',
-                    dataIndex:'reason',
-                    width:'10%'
-                },{
-                    title:'收案日期',
-                    dataIndex:'time',
-                    width:'10%'
-                },{
-                    title:'结案情况',
-                    dataIndex:'state',
-                    width:'10%'
-                }],
+                    title: '案号',
+                    dataIndex: 'caseNo',
+                    width: '7%',
+                    scopedSlots: { customRender: 'type' }
+                },
+                    {
+                        title: '收案日期',
+                        dataIndex: 'time',
+                        width: '7%',
+
+                    },
+                    {
+                        title: '委托人',
+                        dataIndex: 'customName',
+                        width: '7%'
+                    },
+                    {
+                        title: '对方当事人',
+                        dataIndex: 'party',
+                        width: '7%'
+                    },
+                    {
+                        title: '承办律师',
+                        dataIndex: 'lawyer',
+                        width: '10%'
+                    },
+                    {
+                        title: '结案',
+                        dataIndex: 'caseState',
+                        width: '10%'
+                    },
+                    {
+                        title: '代理费（元）',
+                        dataIndex: 'proxyAmount',
+                        width: '10%'
+                    },
+                    {
+                        title: '已付款（元）',
+                        dataIndex: 'alreadyPay',
+                        width: '10%'
+                    },
+                    {
+                        title: '已开票（元）',
+                        dataIndex: 'alreadyInvoice',
+                        width: '10%'
+                    },
+                    {
+                        title: '收案审批',
+                        dataIndex: 'approveState',
+                        width: '10%'
+                    },
+                    {
+                        title: '收案审批人',
+                        dataIndex: 'approver',
+                        width: '10%'
+                    }],
                 custom:{
                     name:null,
                     tel:null,
@@ -795,7 +871,6 @@
                     nature:[{required:true, message:'案件性质不能为空', trigger: 'change'}],
                     foreigner:[{required:true, message:'是否涉外不能为空', trigger: 'select'}],
                     contractNo:[{required:true, message:'合同号不能为空', trigger: 'change'}],
-                    customName:[{required:true, message:'委托人不能为空', trigger: 'change'}],
                     party:[{required:true, message:'对方当事人不能为空', trigger: 'change'}],
                     partyStatus:[{required:true, message:'对方当事人地位不能为空', trigger: 'change'}],
                     time:[{required:true, message:'收案时间不能为空', trigger: 'change'}],
@@ -806,6 +881,8 @@
                     govAmount:[{required:true, message:'补贴金额不能为空', trigger: 'change'}],
                     gov:[{required:true, message:'是否享受政府补贴不能为空', trigger: 'change'}],
                 },
+                syscodesCheck:{},
+                PaySyscodesCheck:{},
                 customTypeCode:[],
                 traitLabel:[],
                 certTypeCode:[],
@@ -827,6 +904,7 @@
                 stageLabel:[],
                 lawSuitCode:[],
                 lawyerCode:[],
+                amountTypeCode:[],
                 caseTable:{
                     caseNoFirst:null,
                     caseNoSecond:null,
@@ -895,16 +973,30 @@
                 scope.$data.tab2 = false;
 
             },
-            handleSearch(e) {
-                e.preventDefault();
-                this.form.validateFields((error, values) => {
-                    console.log('error', error);
-                    console.log('Received values of form: ', values);
-                });
+            handleSearch() {
+                let scope = this.$data;
+                if(scope.searchData.customName == null || scope.searchData.customName == ''){
+                    scope.data = [];
+                    return;
+                }
+                req.POST("case/main/search", this.$data.searchData, function (response) {
+                    scope.data = response.data.data;
+                    scope.data.forEach(function (value) {
+                        value.typeName = scope.syscodesCheck[value.type];
+                        value.PayName = scope.PaySyscodesCheck[value.payType]
+                    })
+                    scope.tab3 = false;
+                    if(scope.data.length > 0){
+                        scope.tab4 = false;
+                    }else{
+                        scope.tab4 = true;
+                    }
+                })
             },
 
             handleReset() {
-                this.form.resetFields();
+                this.$data.searchData = {};
+                this.$data.data = [];
             },
 
             toggle() {
@@ -939,20 +1031,22 @@
             },
             submit(){
                 let scope = this;
-                debugger;
+
                 this.$refs['customRef'].validate(valid =>{
                     if(valid) {
-                        req.POST("custom/insert", this.$data.custom, function (response) {
-                            let scope = this;
-                            scope.$data.activeTab = '4';
-                            scope.$data.tab4 = false;
-                        });
+                        // 检查委托人去重处理
+                        req.POST("custom/check", this.$data.custom, function (response) {
+                            req.POST("custom/insert", this.$data.custom, function (response) {
+                                let scope = this;
+                                scope.$data.activeTab = '4';
+                                scope.$data.tab4 = false;
+                            });
+                        })
                     }
                 });
             },
             addCase(){
                 let scope = this;
-                debugger;
                 this.$refs['caseForm'].validate(valid =>{
                     if(valid) {
                         req.POST("/case/main/insert", this.$data.caseTable, function (response) {
@@ -962,6 +1056,23 @@
                         });
                     }
                 });
+            },
+            filterOption(filterOptioninput, option) {
+                return (
+                    option.componentOptions.propsData.value.indexOf(filterOptioninput) > -1
+                );
+            },
+            addCaseLawyer(){
+                this.$data.caseTable.caseLawyerVos.push({});
+            },
+            removeCaseLawyer(index){
+                this.$data.caseTable.caseLawyerVos.splice(index, 1);
+            },
+            changeLawyer(opt, caseLawyer){
+                caseLawyer.lawyer = opt.value;
+            },
+            changeCust(opt, caseTable){
+                caseTable.customId = opt.value;
             }
         }
     };
@@ -1010,4 +1121,49 @@
   .my{
     max-height: 100%;
   }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item-group-title {
+    color: #666;
+    font-weight: bold;
+  }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item-group {
+    border-bottom: 1px solid #f6f6f6;
+  }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item {
+    padding-left: 16px;
+  }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu-item.show-all {
+    text-align: center;
+    cursor: default;
+  }
+
+  .certain-category-search-dropdown .ant-select-dropdown-menu {
+    max-height: 300px;
+  }
+    .certain-category-search-wrapper
+    >>> .certain-category-search.ant-select-auto-complete
+    .ant-input-affix-wrapper
+    .ant-input-suffix {
+      right: 12px;
+    }
+  .certain-category-search-wrapper >>> .certain-search-item-count {
+    position: absolute;
+    color: #999;
+    right: 16px;
+  }
+  .certain-category-search-wrapper
+  >>> .certain-category-search.ant-select-focused
+  .certain-category-icon {
+    color: #108ee9;
+  }
+  .certain-category-search-wrapper >>> .certain-category-icon {
+    color: #6e6e6e;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    font-size: 16px;
+  }
+
+
 </style>

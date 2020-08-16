@@ -23,14 +23,16 @@ import axios from "axios";
 Vue.prototype.$axios = axios;
 
 //设置axios为form-data
-let baseURL = "http://localhost:26001/";
+let baseURL = "http://121.40.152.16:8888/";
 axios.defaults.headers.post['Content-Type'] = 'text/plain';
+axios.defaults.headers.get['Content-Type'] = 'text/plain';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseURL;
 
 
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
+
 Vue.use(Antd);
 if (sessionStorage.getItem("store")) {
   store.replaceState(

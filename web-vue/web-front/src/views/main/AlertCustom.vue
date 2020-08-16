@@ -376,7 +376,6 @@
             },
             submit(){
                 let scope = this;
-                debugger;
                 this.$refs['customRef'].validate(valid =>{
                     if(valid) {
                         req.POST("custom/update", this.$data.custom, function (response) {

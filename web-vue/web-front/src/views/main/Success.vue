@@ -2,7 +2,7 @@
   <div>
     <tableNav localName="Success" showFirstBtn="true" firstBtnName="返回" :firstCallBack="clinkBack"></tableNav>
     <div class="mx-auto d-flex justify-content-center align-items-center" style="height:800px;width:400px">
-      <div class="w-75 h-25 d-flex justify-content-center" style="width:300;">
+      <div class="w-75 h-25 d-flex justify-content-center" style="width:300px;">
         <span class="fa fa-check text-success" style="font-size:100px;"></span>
         <span style="font-size:20px;line-height:100px;width:200px;">{{message}}</span>
       </div>
